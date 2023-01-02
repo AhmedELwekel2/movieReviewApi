@@ -29,6 +29,16 @@ const actorSchema=new mongoose.Schema({
 })
 
 
+actorSchema.pre(/^find/, function(next) {
+    this.populate({
+      path: 'movies',
+      select: 'name'
+    });
+  
+    next();
+  });
+  
+
 
 const Actor=mongoose.model('Actor',actorSchema)
 

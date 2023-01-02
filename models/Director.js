@@ -27,6 +27,17 @@ const directorSchema=new mongoose.Schema({
     
 })
 
+
+directorSchema.pre(/^find/, function(next) {
+    this.populate({
+      path: 'movies',
+      select: 'name'
+    });
+  
+    next();
+  });
+  
+
 const Director=mongoose.model('Director',directorSchema)
 
 module.exports=Director

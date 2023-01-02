@@ -33,7 +33,7 @@ const movieSchema=new mongoose.Schema({
             
         }
     ],
-    director:[
+    directors:[
     {
         type:mongoose.Schema.Types.ObjectId,
          ref:'Director'
@@ -44,14 +44,45 @@ const movieSchema=new mongoose.Schema({
  images:{
     type:[String]
     
- }
+ },
+ ratingsQuantity: {
+    type: Number,
+    default: 0
+  }
+
+
         
     
 
 
 
 
+},{
+  
+
+  toJSON: { virtuals: true },
+    toObject: { virtuals: true }
 })
+
+movieSchema.virtual('reviews', {
+    ref: 'Review',
+    foreignField: 'movie',
+    localField: '_id'
+  });
+
+
+  movieSchema.pre(/^find/, function(next) {
+    this.populate({
+      path: 'actors',
+      select: 'name Bio '
+    }).populate({
+        path:'directors',
+        select:'name Bio'
+    });
+  
+    next();
+  });
+  
 
 const Movie=mongoose.model('Movie',movieSchema)
 

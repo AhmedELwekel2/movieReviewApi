@@ -2,6 +2,9 @@ const express=require('express')
 const movieController=require('../controllers/movieController')
 const movieRouter=express.Router()
 
+
+
+
 movieRouter.post('/',movieController.createMovie)
 
 movieRouter.post('/:id',movieController.updateMovie)

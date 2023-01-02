@@ -6,7 +6,7 @@ const AppError=require('./utils/appError')
 const globalErrorController=require('./controllers/errorController')
 const actorRouter=require('./routes/actorRouter')
 const directorRouter=require('./routes/directorRouter')
-
+const userRouter=require('./routes/userRouter')
 dotenv.config({path:'.env'})
 
 
@@ -16,7 +16,7 @@ const app=express();
 
 const db=(process.env.DATABASE ).replace('<password>',process.env.DATABASE_PASSWORD )
 
-
+app.use(express.json())
 
 app.get('/',(req,res)=>{
     res.status(300).send('Welcome to Movie Review Api')
@@ -30,7 +30,7 @@ app.use('/actor',actorRouter)
 app.use('/director',directorRouter)
 
 
-
+app.use('/user',userRouter)
 
 mongoose.connect(db).then(()=>{
     console.log('DB connection succesfuly')
