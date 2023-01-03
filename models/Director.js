@@ -1,14 +1,16 @@
 const mongoose=require('mongoose')
-
+const Movie=require('./Movie')
 const directorSchema=new mongoose.Schema({
     name:{
         type:String,
-        required:[true,'please enter the name of the director']
+        required:[true,'please enter the name of the director'],
+        unique:true
 
+        
     },
     movies:[
         {
-            type:mongoose.Schema.Types.ObjectId,
+            type:mongoose.Schema.ObjectId,
             ref:'Movie'
 
         }
@@ -36,6 +38,21 @@ directorSchema.pre(/^find/, function(next) {
   
     next();
   });
+
+  directorSchema.post('save',async function(){
+
+    const movies=this.movies;
+    
+    for (let i=0 ; i<movies.length ; i ++){
+      await Movie.findByIdAndUpdate(movies[i],{
+         actors:this._id
+      })
+ 
+    }
+ 
+ 
+ })
+ 
   
 
 const Director=mongoose.model('Director',directorSchema)

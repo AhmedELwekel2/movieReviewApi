@@ -7,6 +7,7 @@ const globalErrorController=require('./controllers/errorController')
 const actorRouter=require('./routes/actorRouter')
 const directorRouter=require('./routes/directorRouter')
 const userRouter=require('./routes/userRouter')
+const reviewRouter=require('./routes/reviewRouter')
 dotenv.config({path:'.env'})
 
 
@@ -31,6 +32,8 @@ app.use('/director',directorRouter)
 
 
 app.use('/user',userRouter)
+
+app.use('/review',reviewRouter)
 
 mongoose.connect(db).then(()=>{
     console.log('DB connection succesfuly')

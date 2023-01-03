@@ -10,3 +10,5 @@ exports.getAllActors=factory.getAll(Actor)
 exports.updateActor=factory.updateOne(Actor)
 
 exports.delete=factory.deleteOne(Actor)
+
+exports.getOne=factory.getOne(Actor)

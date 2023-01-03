@@ -4,17 +4,17 @@ const authController = require('./../controllers/authController');
 const { addSyntheticLeadingComment } = require('typescript');
 
 
-const reviewRouter = express.Router({ mergeParams: true });
+const reviewRouter = express.Router();
 
 reviewRouter.use(authController.protect)
 
-reviewRouter.post('/',authController.restrictTo('user','admin'),reviewController.createReview)
+reviewRouter.post('/',authController.restrictTo('user','admin'),reviewController.setTourUserIds,reviewController.createReview)
 
-reviewRouter.post('/:id',authController.restrictTo('user','admin'),reviewController.updateReview)
+reviewRouter.post('/:id',authController.restrictTo('user','admin'),reviewController.setTourUserIds,reviewController.updateReview)
 
-reviewRouter.delete('/:id',authController.restrictTo('user','admin'),reviewController.deleteReview)
+reviewRouter.delete('/:id',authController.restrictTo('user','admin'),reviewController.setTourUserIds,reviewController.deleteReview)
 
-reviewRouter.get('/',authController.restrictTo('user','admin'),reviewController.getAllReviews)
+reviewRouter.get('/',authController.restrictTo('user','admin'),reviewController.setTourUserIds,reviewController.getAllReviews)
 
 
 

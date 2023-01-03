@@ -1,9 +1,10 @@
 const express=require('express')
 const movieController=require('../controllers/movieController')
 const movieRouter=express.Router()
+const authController = require('./../controllers/authController');
 
 
-
+movieRouter.use(authController.protect)
 
 movieRouter.post('/',movieController.createMovie)
 

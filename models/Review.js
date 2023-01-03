@@ -17,7 +17,7 @@ const reviewSchema=new mongoose.Schema({
         
     },
     user:{
-        type:mongoose.Schema.Types.ObjectId,
+        type:mongoose.Schema.ObjectId,
         ref:'User',
         required:[true,'review must belong to some user ']
 
@@ -63,12 +63,12 @@ reviewSchema.pre(/^find/, function(next) {
     // console.log(stats);
   
     if (stats.length > 0) {
-      await Movie.findByIdAndUpdate(tourId, {
+      await Movie.findByIdAndUpdate(movieId, {
         ratingsQuantity: stats[0].nRating,
         avgRating: stats[0].avgRating
       });
     } else {
-      await Movie.findByIdAndUpdate(tourId, {
+      await Movie.findByIdAndUpdate(movieId, {
         ratingsQuantity: 0,
         avgRating: 4.5
       });

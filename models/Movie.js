@@ -1,6 +1,6 @@
 const mongoose=require('mongoose')
 const ObjectId = mongoose.Types.ObjectId
-
+const Actor=require('./Actor')
 const movieSchema=new mongoose.Schema({
 
     name:{
@@ -25,22 +25,8 @@ const movieSchema=new mongoose.Schema({
     releaseDate:{
         type:Date
     },
-    actors:[
-        {
-            type:mongoose.Schema.Types.ObjectId,
-            ref:'Actor'
-            
-            
-        }
-    ],
-    directors:[
-    {
-        type:mongoose.Schema.Types.ObjectId,
-         ref:'Director'
-       
-    }]
+   
 
-,
  images:{
     type:[String]
     
@@ -64,25 +50,32 @@ const movieSchema=new mongoose.Schema({
     toObject: { virtuals: true }
 })
 
+movieSchema.set('toObject',{virtuals:true})
+movieSchema.set('toJSON',{virtuals:true})
+
+
 movieSchema.virtual('reviews', {
     ref: 'Review',
     foreignField: 'movie',
+    localField: '_id',
+  });
+
+  movieSchema.virtual('actors', {
+    ref: 'Actor',
+    foreignField: 'movies',
+    localField: '_id'
+  });
+
+  movieSchema.virtual('directors', {
+    ref: 'Director',
+    foreignField: 'movies',
     localField: '_id'
   });
 
 
-  movieSchema.pre(/^find/, function(next) {
-    this.populate({
-      path: 'actors',
-      select: 'name Bio '
-    }).populate({
-        path:'directors',
-        select:'name Bio'
-    });
-  
-    next();
-  });
-  
+
+
+
 
 const Movie=mongoose.model('Movie',movieSchema)
 
